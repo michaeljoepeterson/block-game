@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 
 export function GridPage(props){
 	return(
-		<div>
+		<div className="container center">
 			<p>test</p>
 		</div>
 	)
