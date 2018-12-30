@@ -8,7 +8,8 @@ const initialState = {
 	rows: null,
 	columns:null,
 	loading:null,
-	message:null
+	message:null,
+	name:null
 };
 
 export default function reducer(state = initialState,action){

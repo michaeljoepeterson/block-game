@@ -16,3 +16,8 @@ export const CREATE_GRID_ERROR = "CREATE_GRID_ERROR";
 export const create_grid_error = () =>({
 	type:CREATE_GRID_ERROR
 });
+
+export const createGrid = (gridData) => (dispatch,getState) => {
+	dispatch(create_grid_request);
+	dispatch(create_grid_success);
+}
