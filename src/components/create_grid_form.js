@@ -8,6 +8,7 @@ export class CreateGridForm extends React.Component{
 
 	onSubmit(values){
 		console.log(values);
+		return(this.props.dispatch(createGrid(values)))
 	}
 
 	render(){
