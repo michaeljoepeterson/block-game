@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import "./grid.css";
 
 export class Grid extends React.Component{
 	componentDidMount() {
@@ -25,6 +26,13 @@ export class Grid extends React.Component{
     	return returnArray;
     }
 
+    gridButtonClicked(event){
+    	event.preventDefault();
+    	console.log(event.target.dataset.row)
+    	console.log(event.target.dataset.column)
+    	console.log("button clicked");
+    }
+
 	render(){
 		//maybe need to save the column/row data as objects?
 		//then for each row I can render the data then redner column data inside?
@@ -42,7 +50,9 @@ export class Grid extends React.Component{
 						<tr key={row.id}>
 							{columnData.map(column => {
 								return(
-									<td key={column.id}>test{column.id}
+									<td key={row.id + column.id}><button className="gridButton" data-row={row.id} data-column={column.id}
+									onClick={(e)=>this.gridButtonClicked(e)}
+									></button>
 									</td>
 								);
 							})}
@@ -57,7 +67,7 @@ export class Grid extends React.Component{
 		return(
 			<div>
 				<p>{this.props.gridData.name}</p>
-				<table><tbody>{tableData}</tbody></table>
+				<table className="gridTable"><tbody>{tableData}</tbody></table>
 			</div>
 		);
 	}

@@ -1,0 +1,26 @@
+.gridTable{
+	
+}
+
+
+.gridTable,.gridTable td{
+	border: 1px solid black;
+	border-collapse: collapse;
+	padding: 0px;
+	margin:0px;
+	line-height: 0px;
+}
+
+.gridButton{
+	min-width: 30px;
+	min-height: 30px;
+	border:none;
+	background: none;
+}
+.gridButton:hover{
+	background-color: black;
+}
+.gridButton:active{
+	background-color: white;
+	box-shadow: 0px 0px 15px 5px grey;
+}
