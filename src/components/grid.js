@@ -21,16 +21,37 @@ export class Grid extends React.Component{
     	for(let i = 0; i < numRow;i++){
     		//console.log("run for",numRow);
 
-    		returnArray.push({id:i + " column"} );
+    		returnArray.push({id:i} );
     	}
     	return returnArray;
     }
-
+    //need to rethink how the row/column data saved due to issues with double digit grids
+    //ie when grid double digits can have multiple spaces where grid button id is the same
     gridButtonClicked(event){
     	event.preventDefault();
-    	console.log(event.target.dataset.row)
-    	console.log(event.target.dataset.column)
-    	console.log("button clicked");
+    	//console.log(event.target.dataset.row)
+    	//console.log(event.target.dataset.column)
+    	let buttonId = event.target.id;
+    	console.log("button clicked, id: ",event.target.id);
+    	let targetButton = document.getElementById(buttonId);
+    	if(!targetButton.classList.contains("gridButtonClicked")){
+    		targetButton.classList.add("gridButtonClicked");
+    	}
+    	else{
+    		targetButton.classList.remove("gridButtonClicked");
+    	}
+    }
+
+    resetButtons(){
+    	let elemntArray = document.getElementsByClassName("gridButton");
+    	for(let i = 0;i<elemntArray.length;i++){
+    		console.log("Reset button id: ",elemntArray[i].id);
+    		//console.log("Reset button id: ",elemntArray[i].classList);
+    		//targetButton = 
+    		if(elemntArray[i].classList.contains("gridButtonClicked")){
+    			elemntArray[i].classList.remove("gridButtonClicked");
+    		}
+    	}
     }
 
 	render(){
@@ -39,6 +60,7 @@ export class Grid extends React.Component{
 		let tableData = [];
 		let columnData = [];
 		let rowData = [];
+		let resetButton;
 		try{
 			rowData = this.setRowData(this.props.gridData.rows);
 			columnData = this.setColumnData(this.props.gridData.columns)
@@ -50,7 +72,8 @@ export class Grid extends React.Component{
 						<tr key={row.id}>
 							{columnData.map(column => {
 								return(
-									<td key={row.id + column.id}><button className="gridButton" data-row={row.id} data-column={column.id}
+									<td 
+									key={row.id + column.id}><button id={"row" + row.id.toString() + " " + "column" + column.id.toString()} className="gridButton" data-row={row.id} data-column={column.id}
 									onClick={(e)=>this.gridButtonClicked(e)}
 									></button>
 									</td>
@@ -59,6 +82,8 @@ export class Grid extends React.Component{
 						</tr>
 					);
 				});
+				//this.resetButtons();
+				resetButton = <button className="resetButton" onClick={e=>this.resetButtons(e)}>Reset</button>
 			}
 		}
 		catch(err){
@@ -68,6 +93,7 @@ export class Grid extends React.Component{
 			<div>
 				<p>{this.props.gridData.name}</p>
 				<table className="gridTable"><tbody>{tableData}</tbody></table>
+				{resetButton}
 			</div>
 		);
 	}
