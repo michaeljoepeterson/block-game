@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {updateGridArray} from '../actions/createGrid';
+import {updateGridArray,resetGridArray} from '../actions/createGrid';
 import "./grid.css";
 
 export class Grid extends React.Component{
@@ -32,6 +32,20 @@ export class Grid extends React.Component{
 
    	renderGrid(){
    		console.log("Grid Array Render: ", this.props.gridData.gridArray);
+   		for(let i =0;i < this.props.gridData.gridArray.length; i++){
+   			for(let k = 0;k < this.props.gridData.gridArray[i].length;k++){
+   				let gridId = "row" + i + " column" + k;
+   				let targetButton = document.getElementById(gridId);
+
+   				if(this.props.gridData.gridArray[i][k] === 1){
+   					targetButton.classList.add("gridButtonClicked");
+   				}
+   				else{
+   					//targetButton.classList.remove("gridButtonClicked");
+   				}
+   			}
+   		}
+
    	}
     //will need to convert the grid array to data that can be used to color the squares
     //idea is that while dragging see if the mouse went over the grid block then save that info in array data
@@ -41,7 +55,12 @@ export class Grid extends React.Component{
     	console.log("the mouse is over: ",event.target.id);
     	console.log("mouse over row: ", event.target.dataset.row);
     	console.log("mouse over column: ", event.target.dataset.column);
+    	const row = event.target.dataset.row;
+    	const column = event.target.dataset.column;
     	//setting the data will be like this.props.gridData.gridArray[row][column]
+    	if(this.gridButtonClickState === true){
+    		this.props.dispatch(updateGridArray(row,column));
+    	}
     }
 
     gridbuttonMouseUp(event){
@@ -83,6 +102,7 @@ export class Grid extends React.Component{
     			elemntArray[i].classList.remove("gridButtonClicked");
     		}
     	}
+    	this.props.dispatch(resetGridArray());
     }
 
 	render(){

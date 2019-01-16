@@ -34,6 +34,12 @@ export const updateGridArray = (row,column) => ({
 	column
 });
 
+export const RESET_GRID_ARRAY = "RESET_GRID_ARRAY";
+
+export const resetGridArray = () => ({
+	type:RESET_GRID_ARRAY,
+});
+
 export const createGrid = (gridData) => (dispatch,getState) => {
 	dispatch(create_grid_request());
 	dispatch(create_grid_success(gridData));

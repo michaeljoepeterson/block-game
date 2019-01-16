@@ -2,7 +2,8 @@ import{
 	CREATE_GRID_REQUEST,
 	CREATE_GRID_ERROR,
 	CREATE_GRID_SUCCESS,
-	UPDATE_GRID_ARRAY
+	UPDATE_GRID_ARRAY,
+	RESET_GRID_ARRAY
 } from '../actions/createGrid';
 
 const initialState = {
@@ -59,6 +60,11 @@ export default function reducer(state = initialState,action){
 	}
 	else if(action.type === UPDATE_GRID_ARRAY){
 		state.gridArray[action.row][action.column] = 1;
+		return Object.assign({},state,{
+		});
+	}
+	else if(action.type === RESET_GRID_ARRAY){
+		state.gridArray = createGridArray(state.rows,state.columns);
 		return Object.assign({},state,{
 		});
 	}
