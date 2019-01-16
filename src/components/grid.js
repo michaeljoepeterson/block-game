@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import {updateGridArray} from '../actions/createGrid';
 import "./grid.css";
 
 export class Grid extends React.Component{
@@ -28,12 +29,19 @@ export class Grid extends React.Component{
     	}
     	return returnArray;
     }
+
+   	renderGrid(){
+   		console.log("Grid Array Render: ", this.props.gridData.gridArray);
+   	}
     //will need to convert the grid array to data that can be used to color the squares
     //idea is that while dragging see if the mouse went over the grid block then save that info in array data
     //then go through that array and color the corresponding squares
     gridButtonMouseOver(event){
     	event.preventDefault();
     	console.log("the mouse is over: ",event.target.id);
+    	console.log("mouse over row: ", event.target.dataset.row);
+    	console.log("mouse over column: ", event.target.dataset.column);
+    	//setting the data will be like this.props.gridData.gridArray[row][column]
     }
 
     gridbuttonMouseUp(event){
@@ -52,19 +60,23 @@ export class Grid extends React.Component{
     	event.preventDefault();
     	let buttonId = event.target.id;
     	console.log("button clicked, id: ",event.target.id);
+    	const row = event.target.dataset.row;
+    	const column = event.target.dataset.column;
     	let targetButton = document.getElementById(buttonId);
+
     	if(!targetButton.classList.contains("gridButtonClicked")){
     		targetButton.classList.add("gridButtonClicked");
     	}
     	else{
     		targetButton.classList.remove("gridButtonClicked");
     	}
+    	this.props.dispatch(updateGridArray(row,column));
     }
 
     resetButtons(){
     	let elemntArray = document.getElementsByClassName("gridButton");
     	for(let i = 0;i<elemntArray.length;i++){
-    		console.log("Reset button id: ",elemntArray[i].id);
+    		//console.log("Reset button id: ",elemntArray[i].id);
     		//console.log("Reset button id: ",elemntArray[i].classList);
     		//targetButton = 
     		if(elemntArray[i].classList.contains("gridButtonClicked")){
@@ -83,7 +95,7 @@ export class Grid extends React.Component{
 		try{
 			rowData = this.setRowData(this.props.gridData.rows);
 			columnData = this.setColumnData(this.props.gridData.columns)
-			console.log("grid data", this.props.gridData.gridArray);
+			//console.log("grid data", this.props.gridData.gridArray);
 			if(this.props.gridData.columns > 0 && this.props.gridData.rows > 0){
 				console.log("construct table");
 				tableData = rowData.map(row=>{
@@ -105,6 +117,7 @@ export class Grid extends React.Component{
 				});
 				//this.resetButtons();
 				resetButton = <button className="resetButton" onClick={e=>this.resetButtons(e)}>Reset</button>
+				this.renderGrid();
 			}
 		}
 		catch(err){

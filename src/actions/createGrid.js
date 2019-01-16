@@ -26,6 +26,14 @@ export const update_grid = (gridData) =>({
 	gridData
 });
 
+export const UPDATE_GRID_ARRAY = "UPDATE_GRID_ARRAY";
+
+export const updateGridArray = (row,column) => ({
+	type:UPDATE_GRID_ARRAY,
+	row,
+	column
+});
+
 export const createGrid = (gridData) => (dispatch,getState) => {
 	dispatch(create_grid_request());
 	dispatch(create_grid_success(gridData));

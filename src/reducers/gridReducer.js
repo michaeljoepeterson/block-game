@@ -1,7 +1,8 @@
 import{
 	CREATE_GRID_REQUEST,
 	CREATE_GRID_ERROR,
-	CREATE_GRID_SUCCESS
+	CREATE_GRID_SUCCESS,
+	UPDATE_GRID_ARRAY
 } from '../actions/createGrid';
 
 const initialState = {
@@ -38,7 +39,7 @@ export default function reducer(state = initialState,action){
 	else if(action.type === CREATE_GRID_SUCCESS){
 		console.log("reducer success data", action.gridData);
 		const gridArray = createGridArray(parseInt(action.gridData.rows),parseInt(action.gridData.columns));
-		console.log("reducer gridArray: ",gridArray);
+		//console.log("reducer gridArray: ",gridArray);
 		return Object.assign({},state,{
 			loading:null,
 			message:"success",
@@ -54,6 +55,11 @@ export default function reducer(state = initialState,action){
 			loading:null,
 			message:"error",
 			error:action.error
+		});
+	}
+	else if(action.type === UPDATE_GRID_ARRAY){
+		state.gridArray[action.row][action.column] = 1;
+		return Object.assign({},state,{
 		});
 	}
 	return state;

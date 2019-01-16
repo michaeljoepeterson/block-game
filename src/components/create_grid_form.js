@@ -7,7 +7,7 @@ import {required,nonEmpty} from "../validator";
 export class CreateGridForm extends React.Component{
 
 	onSubmit(values){
-		console.log(values);
+		//console.log(values);
 		return(this.props.dispatch(createGrid(values)))
 	}
 	//can add a normalize function to component to have name change with typing
