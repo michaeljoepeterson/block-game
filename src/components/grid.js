@@ -47,9 +47,6 @@ export class Grid extends React.Component{
    		}
 
    	}
-    //will need to convert the grid array to data that can be used to color the squares
-    //idea is that while dragging see if the mouse went over the grid block then save that info in array data
-    //then go through that array and color the corresponding squares
     gridButtonMouseOver(event){
     	event.preventDefault();
     	console.log("the mouse is over: ",event.target.id);
@@ -57,10 +54,23 @@ export class Grid extends React.Component{
     	console.log("mouse over column: ", event.target.dataset.column);
     	const row = event.target.dataset.row;
     	const column = event.target.dataset.column;
-    	//setting the data will be like this.props.gridData.gridArray[row][column]
+    	//is it possible to do another check so we can get a mass remove class? might not be good eraser tool better?
     	if(this.gridButtonClickState === true){
     		this.props.dispatch(updateGridArray(row,column));
     	}
+    }
+    //need another event listener to see if the mouse is off grid and change to false possible need a mouse out event?
+    outOfGrid(event){
+    	event.preventDefault();
+    	this.gridButtonClickState = false;
+    	try{
+    		console.log(event.relatedTarget.classList[0]);
+    	}
+    	catch(err){
+
+    	}
+    	
+    	console.log("out of grid: ",this.gridButtonClickState);
     }
 
     gridbuttonMouseUp(event){
@@ -82,7 +92,7 @@ export class Grid extends React.Component{
     	const row = event.target.dataset.row;
     	const column = event.target.dataset.column;
     	let targetButton = document.getElementById(buttonId);
-
+    	//will need to update array now as well to regain click remove class functionality
     	if(!targetButton.classList.contains("gridButtonClicked")){
     		targetButton.classList.add("gridButtonClicked");
     	}
@@ -146,7 +156,7 @@ export class Grid extends React.Component{
 		return(
 			<div>
 				<p>{this.props.gridData.name}</p>
-				<table className="gridTable"><tbody>{tableData}</tbody></table>
+				<table  className="gridTable"><tbody onMouseLeave={(e) => this.outOfGrid(e)}>{tableData}</tbody></table>
 				{resetButton}
 			</div>
 		);

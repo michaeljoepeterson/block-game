@@ -59,7 +59,13 @@ export default function reducer(state = initialState,action){
 		});
 	}
 	else if(action.type === UPDATE_GRID_ARRAY){
-		state.gridArray[action.row][action.column] = 1;
+		if(state.gridArray[action.row][action.column] === 1){
+			state.gridArray[action.row][action.column] = 0;
+		}
+		else if (state.gridArray[action.row][action.column] === 0){
+			state.gridArray[action.row][action.column] = 1;
+		}
+		
 		return Object.assign({},state,{
 		});
 	}
