@@ -14,7 +14,7 @@ export class Grid extends React.Component{
     }
 
     setRowData(numCol){
-    	let returnArray = []
+    	let returnArray = [];
     	for(let i = 0; i < numCol;i++){
     		returnArray.push({id:i});
     	}
@@ -22,7 +22,7 @@ export class Grid extends React.Component{
     }
 
     setColumnData(numRow){
-    	let returnArray = []
+    	let returnArray = [];
     	for(let i = 0; i < numRow;i++){
 
     		returnArray.push({id:i} );
@@ -32,6 +32,7 @@ export class Grid extends React.Component{
 
    	renderGrid(){
    		console.log("Grid Array Render: ", this.props.gridData.gridArray);
+        console.log("Grid Object Array Render: ", this.props.gridData.gridObjectArray);
    		for(let i =0;i < this.props.gridData.gridArray.length; i++){
    			for(let k = 0;k < this.props.gridData.gridArray[i].length;k++){
    				let gridId = "row" + i + " column" + k;
@@ -49,7 +50,7 @@ export class Grid extends React.Component{
    	}
     gridButtonMouseOver(event){
     	event.preventDefault();
-    	console.log("the mouse is over: ",event.target.id);
+    	console.log("the mouse is over: ",event.target.id.split(" "));
     	console.log("mouse over row: ", event.target.dataset.row);
     	console.log("mouse over column: ", event.target.dataset.column);
     	const row = event.target.dataset.row;
@@ -167,4 +168,4 @@ const mapStateToProps = state => ({
     gridData: state.grid
 });
 
-export default connect(mapStateToProps)(Grid)
+export default connect(mapStateToProps)(Grid);

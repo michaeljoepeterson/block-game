@@ -12,7 +12,8 @@ const initialState = {
 	loading:null,
 	message:null,
 	name:null,
-	gridArray:null
+	gridArray:null,
+	gridObjectArray:null
 };
 
 function createGridArray(rows,columns){
@@ -24,6 +25,22 @@ function createGridArray(rows,columns){
 			rowArr.push(0);
 		}
 		gridArr.push(rowArr);
+	}
+	return gridArr;
+}
+
+//maybe need to save the grid as a object so that we can associate color with each grid block and any other data that might need
+
+function creatGridObjects(rows,columns){
+	let gridArr = [];
+	let rowObj = {};
+
+	for(let i = 0;i < rows; i++){
+		rowObj = {};
+		for(let k = 0; k < columns;k++){
+			rowObj["column" + k] = {state: 0};
+		}
+		gridArr.push(rowObj);
 	}
 	return gridArr;
 }
@@ -40,6 +57,7 @@ export default function reducer(state = initialState,action){
 	else if(action.type === CREATE_GRID_SUCCESS){
 		console.log("reducer success data", action.gridData);
 		const gridArray = createGridArray(parseInt(action.gridData.rows),parseInt(action.gridData.columns));
+		const gridObjectArray = creatGridObjects(parseInt(action.gridData.rows),parseInt(action.gridData.columns));
 		//console.log("reducer gridArray: ",gridArray);
 		return Object.assign({},state,{
 			loading:null,
@@ -48,7 +66,8 @@ export default function reducer(state = initialState,action){
 			name:action.gridData.gameName,
 			rows:action.gridData.rows,
 			columns:action.gridData.columns,
-			gridArray
+			gridArray,
+			gridObjectArray
 		});
 	}
 	else if(action.type === CREATE_GRID_ERROR){
