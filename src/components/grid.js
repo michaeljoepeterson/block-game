@@ -30,24 +30,20 @@ export class Grid extends React.Component{
     	return returnArray;
     }
 
-   	renderGrid(){
-   		console.log("Grid Array Render: ", this.props.gridData.gridArray);
+    renderGrid(){
         console.log("Grid Object Array Render: ", this.props.gridData.gridObjectArray);
-   		for(let i =0;i < this.props.gridData.gridArray.length; i++){
-   			for(let k = 0;k < this.props.gridData.gridArray[i].length;k++){
-   				let gridId = "row" + i + " column" + k;
-   				let targetButton = document.getElementById(gridId);
+        for(let i =0;i < this.props.gridData.gridObjectArray.length; i++){
+            for(let column in this.props.gridData.gridObjectArray[i]){
+                let gridId = "row" + i + " " + column;
+                let targetButton = document.getElementById(gridId);
 
-   				if(this.props.gridData.gridArray[i][k] === 1){
-   					targetButton.classList.add("gridButtonClicked");
-   				}
-   				else{
-   					//targetButton.classList.remove("gridButtonClicked");
-   				}
-   			}
-   		}
+                if(this.props.gridData.gridObjectArray[i][column].state === 1){
+                    targetButton.classList.add("gridButtonClicked");
+                }
+            }
+        }
 
-   	}
+    }
     gridButtonMouseOver(event){
     	event.preventDefault();
     	console.log("the mouse is over: ",event.target.id.split(" "));

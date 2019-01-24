@@ -78,11 +78,12 @@ export default function reducer(state = initialState,action){
 		});
 	}
 	else if(action.type === UPDATE_GRID_ARRAY){
-		if(state.gridArray[action.row][action.column] === 1){
-			state.gridArray[action.row][action.column] = 0;
+
+		if(state.gridObjectArray[action.row]["column" + action.column].state === 1){
+			state.gridObjectArray[action.row]["column" + action.column].state = 0;
 		}
-		else if (state.gridArray[action.row][action.column] === 0){
-			state.gridArray[action.row][action.column] = 1;
+		else if (state.gridObjectArray[action.row]["column" + action.column].state === 0){
+			state.gridObjectArray[action.row]["column" + action.column].state = 1;
 		}
 		
 		return Object.assign({},state,{
