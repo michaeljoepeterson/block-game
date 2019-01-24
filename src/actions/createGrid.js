@@ -40,7 +40,16 @@ export const resetGridArray = () => ({
 	type:RESET_GRID_ARRAY,
 });
 
+export const UPDATE_COLOR = "UPDATE_COLOR";
+
+export const updateColor = (color,row,column) => ({
+	type:UPDATE_COLOR,
+	row,
+	column
+});
+
 export const createGrid = (gridData) => (dispatch,getState) => {
 	dispatch(create_grid_request());
 	dispatch(create_grid_success(gridData));
 }
+

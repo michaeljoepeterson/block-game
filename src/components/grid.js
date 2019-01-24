@@ -1,12 +1,13 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {updateGridArray,resetGridArray} from '../actions/createGrid';
+import {updateGridArray,resetGridArray,updateColor} from '../actions/createGrid';
 import "./grid.css";
 
 export class Grid extends React.Component{
 	constructor(props){
 		super(props);
 		this.gridButtonClickState = false;
+        this.currentColour = "#000000";
 	}
 
 	componentDidMount() {
@@ -39,6 +40,8 @@ export class Grid extends React.Component{
 
                 if(this.props.gridData.gridObjectArray[i][column].state === 1){
                     targetButton.classList.add("gridButtonClicked");
+                    //use this to change the color of the element to the choosen color
+                    targetButton.style.backgroundColor = "#335fae";
                 }
             }
         }
@@ -99,14 +102,18 @@ export class Grid extends React.Component{
     	this.props.dispatch(updateGridArray(row,column));
     }
 
+    changeColor(event){
+        console.log("color: ", event.target.value);
+    }
+
     resetButtons(){
-    	let elemntArray = document.getElementsByClassName("gridButton");
-    	for(let i = 0;i<elemntArray.length;i++){
-    		//console.log("Reset button id: ",elemntArray[i].id);
-    		//console.log("Reset button id: ",elemntArray[i].classList);
+    	let elementArray = document.getElementsByClassName("gridButton");
+    	for(let i = 0;i<elementArray.length;i++){
+    		//console.log("Reset button id: ",elementArray[i].id);
+    		//console.log("Reset button id: ",elementArray[i].classList);
     		//targetButton = 
-    		if(elemntArray[i].classList.contains("gridButtonClicked")){
-    			elemntArray[i].classList.remove("gridButtonClicked");
+    		if(elementArray[i].classList.contains("gridButtonClicked")){
+    			elementArray[i].classList.remove("gridButtonClicked");
     		}
     	}
     	this.props.dispatch(resetGridArray());
@@ -119,6 +126,11 @@ export class Grid extends React.Component{
 		let columnData = [];
 		let rowData = [];
 		let resetButton;
+        let colorInput;
+        if(this.props.gridData.gridObjectArray){
+           colorInput = (<input type="color" onChange={(e)=>this.changeColor(e)}/>)
+        }
+        console.log(this.props.gridData.gridObjectArray);
 		try{
 			rowData = this.setRowData(this.props.gridData.rows);
 			columnData = this.setColumnData(this.props.gridData.columns)
@@ -153,7 +165,8 @@ export class Grid extends React.Component{
 		return(
 			<div>
 				<p>{this.props.gridData.name}</p>
-				<table  className="gridTable"><tbody onMouseLeave={(e) => this.outOfGrid(e)}>{tableData}</tbody></table>
+                {colorInput}
+				<table className="gridTable"><tbody onMouseLeave={(e) => this.outOfGrid(e)}>{tableData}</tbody></table>
 				{resetButton}
 			</div>
 		);

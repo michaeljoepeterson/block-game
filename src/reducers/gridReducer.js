@@ -3,7 +3,8 @@ import{
 	CREATE_GRID_ERROR,
 	CREATE_GRID_SUCCESS,
 	UPDATE_GRID_ARRAY,
-	RESET_GRID_ARRAY
+	RESET_GRID_ARRAY,
+	UPDATE_COLOR
 } from '../actions/createGrid';
 
 const initialState = {
@@ -16,19 +17,6 @@ const initialState = {
 	gridObjectArray:null
 };
 
-function createGridArray(rows,columns){
-	let gridArr = [];
-	let rowArr = [];
-	for(let i = 0;i < rows; i++){
-		rowArr = [];
-		for(let k = 0; k < columns;k++){
-			rowArr.push(0);
-		}
-		gridArr.push(rowArr);
-	}
-	return gridArr;
-}
-
 //maybe need to save the grid as a object so that we can associate color with each grid block and any other data that might need
 
 function creatGridObjects(rows,columns){
@@ -38,7 +26,7 @@ function creatGridObjects(rows,columns){
 	for(let i = 0;i < rows; i++){
 		rowObj = {};
 		for(let k = 0; k < columns;k++){
-			rowObj["column" + k] = {state: 0};
+			rowObj["column" + k] = {state: 0,color:"#000000"};
 		}
 		gridArr.push(rowObj);
 	}
@@ -56,7 +44,6 @@ export default function reducer(state = initialState,action){
 	}
 	else if(action.type === CREATE_GRID_SUCCESS){
 		console.log("reducer success data", action.gridData);
-		const gridArray = createGridArray(parseInt(action.gridData.rows),parseInt(action.gridData.columns));
 		const gridObjectArray = creatGridObjects(parseInt(action.gridData.rows),parseInt(action.gridData.columns));
 		//console.log("reducer gridArray: ",gridArray);
 		return Object.assign({},state,{
@@ -66,7 +53,6 @@ export default function reducer(state = initialState,action){
 			name:action.gridData.gameName,
 			rows:action.gridData.rows,
 			columns:action.gridData.columns,
-			gridArray,
 			gridObjectArray
 		});
 	}
@@ -90,7 +76,11 @@ export default function reducer(state = initialState,action){
 		});
 	}
 	else if(action.type === RESET_GRID_ARRAY){
-		state.gridArray = createGridArray(state.rows,state.columns);
+		state.gridObjectArray = creatGridObjects(parseInt(state.rows),parseInt(state.columns));
+		return Object.assign({},state,{
+		});
+	}
+	else if(action.type === UPDATE_COLOR){
 		return Object.assign({},state,{
 		});
 	}
