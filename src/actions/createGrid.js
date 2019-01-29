@@ -44,6 +44,7 @@ export const UPDATE_COLOR = "UPDATE_COLOR";
 
 export const updateColor = (color,row,column) => ({
 	type:UPDATE_COLOR,
+	color,
 	row,
 	column
 });

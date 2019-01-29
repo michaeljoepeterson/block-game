@@ -10,10 +10,6 @@ export class Grid extends React.Component{
         this.currentColour = "#000000";
 	}
 
-	componentDidMount() {
-		console.log("test");
-    }
-
     setRowData(numCol){
     	let returnArray = [];
     	for(let i = 0; i < numCol;i++){
@@ -33,17 +29,30 @@ export class Grid extends React.Component{
 
     renderGrid(){
         console.log("Grid Object Array Render: ", this.props.gridData.gridObjectArray);
-        for(let i =0;i < this.props.gridData.gridObjectArray.length; i++){
-            for(let column in this.props.gridData.gridObjectArray[i]){
-                let gridId = "row" + i + " " + column;
-                let targetButton = document.getElementById(gridId);
+        try{
 
-                if(this.props.gridData.gridObjectArray[i][column].state === 1){
-                    targetButton.classList.add("gridButtonClicked");
-                    //use this to change the color of the element to the choosen color
-                    targetButton.style.backgroundColor = "#335fae";
+
+            for(let i =0;i < this.props.gridData.gridObjectArray.length; i++){
+                for(let column in this.props.gridData.gridObjectArray[i]){
+                    let gridId = "row" + i + " " + column;
+                    let targetButton = document.getElementById(gridId);
+
+                    if(this.props.gridData.gridObjectArray[i][column].state === 1){
+                        targetButton.classList.add("gridButtonClicked");
+                        //use this to change the color of the element to the choosen color
+                        console.log(this.props.gridData.gridObjectArray[i][column].state);
+                        targetButton.style.backgroundColor = this.props.gridData.gridObjectArray[i][column].color;
+                    }
+                    else if(this.props.gridData.gridObjectArray[i][column].state === 0){
+                        console.log(this.props.gridData.gridObjectArray[i][column].state);
+                        targetButton.style.backgroundColor = "#ffffff";
+                    }
+                    console.log("test");
                 }
             }
+        }
+        catch(err){
+            
         }
 
     }
@@ -57,6 +66,7 @@ export class Grid extends React.Component{
     	//is it possible to do another check so we can get a mass remove class? might not be good eraser tool better?
     	if(this.gridButtonClickState === true){
     		this.props.dispatch(updateGridArray(row,column));
+            this.props.dispatch(updateColor(this.currentColour,row,column));
     	}
     }
     //need another event listener to see if the mouse is off grid and change to false possible need a mouse out event?
@@ -100,10 +110,16 @@ export class Grid extends React.Component{
     		targetButton.classList.remove("gridButtonClicked");
     	}
     	this.props.dispatch(updateGridArray(row,column));
+        this.props.dispatch(updateColor(this.currentColour,row,column));
     }
 
     changeColor(event){
         console.log("color: ", event.target.value);
+        this.currentColour = event.target.value;
+        //const row = event.target.dataset.row;
+        //const column = event.target.dataset.column;
+        //console.log(row,column)
+        
     }
 
     resetButtons(){

@@ -81,6 +81,7 @@ export default function reducer(state = initialState,action){
 		});
 	}
 	else if(action.type === UPDATE_COLOR){
+		state.gridObjectArray[action.row]["column" + action.column].color = action.color;
 		return Object.assign({},state,{
 		});
 	}
